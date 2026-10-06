@@ -1,0 +1,236 @@
+@import 'tailwindcss';
+
+/* ==========================================================================
+   DESIGN TOKENS — Ruka Milosti
+   Paleta je izvedena direktno iz logotipa (Resursi/Logo.png):
+     navy  #01234D  — dominantna boja kuće, ruku i natpisa
+     gold  #B38630  — prosječna vrijednost zlatnih površina (srce, prsten)
+   Sve boje mijenjaju se isključivo ovdje.
+   ========================================================================== */
+@theme {
+  /* --- Navy (primarna) --- */
+  --color-navy-950: #061529;
+  --color-navy-900: #01234d; /* iz logotipa */
+  --color-navy-800: #0b3163;
+  --color-navy-700: #17447d;
+  --color-navy-100: #dde4ee;
+  --color-navy-50: #eef2f8;
+
+  /* --- Zlatna (akcent, nikad dominantna) --- */
+  --color-gold-700: #7a5413; /* dovoljan kontrast za sitan tekst na kremu */
+  --color-gold-600: #8e6418;
+  --color-gold-500: #b38630; /* iz logotipa */
+  --color-gold-400: #c9a04a;
+  --color-gold-300: #e3c97e;
+  --color-gold-100: #f2e6cd;
+
+  /* --- Podloge --- */
+  --color-cream-50: #fffdf8;
+  --color-cream-100: #f8f5ed;
+  --color-cream-200: #f0ebdf;
+  --color-cream-300: #e5ddcb;
+
+  /* --- Tekst --- */
+  --color-ink: #01234d;
+  --color-ink-soft: #3c4a5e;
+  --color-ink-muted: #5d6570;
+  --color-ink-invert: #fffdf8;
+
+  /* --- Tipografija --- */
+  --font-serif: 'Source Serif 4', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  --text-display: clamp(2.6rem, 1.4rem + 4.4vw, 5.25rem);
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.028em;
+
+  --text-statement: clamp(2rem, 1.1rem + 3.6vw, 4.25rem);
+  --text-statement--line-height: 1.08;
+  --text-statement--letter-spacing: -0.022em;
+
+  --text-h2: clamp(2rem, 1.35rem + 2.5vw, 3.5rem);
+  --text-h2--line-height: 1.06;
+  --text-h2--letter-spacing: -0.022em;
+
+  --text-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-h3--line-height: 1.22;
+
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.62;
+
+  /* --- Radijusi --- */
+  --radius-card: 1.25rem;
+  --radius-panel: 1.75rem;
+  --radius-hero: 2.25rem;
+
+  /* --- Sjene (tople, navy ton) --- */
+  --shadow-subtle: 0 1px 2px rgb(1 35 77 / 0.04), 0 8px 24px -16px rgb(1 35 77 / 0.16);
+  --shadow-lifted: 0 2px 4px rgb(1 35 77 / 0.05), 0 24px 48px -24px rgb(1 35 77 / 0.28);
+  --shadow-float: 0 1px 1px rgb(6 21 41 / 0.08), 0 30px 60px -20px rgb(6 21 41 / 0.45);
+
+  /* --- Ritam sekcija --- */
+  --spacing-section: clamp(4.5rem, 3rem + 6vw, 9rem);
+  --spacing-gutter: clamp(1.25rem, 0.75rem + 1.6vw, 2.5rem);
+
+  /* --- Pokret --- */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-rays: rays 22s ease-in-out infinite alternate;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 9s ease-in-out infinite;
+  --animate-marquee: marquee 48s linear infinite;
+  --animate-ping-soft: ping-soft 2.4s var(--ease-out-soft) infinite;
+  --animate-rise: rise 1.1s var(--ease-out-expo) both;
+  --animate-tick: tick 0.5s var(--ease-out-expo) both;
+
+  @keyframes rays {
+    0% { transform: translate3d(-4%, 0, 0) rotate(0deg); opacity: 0.75; }
+    50% { opacity: 1; }
+    100% { transform: translate3d(4%, -2%, 0) rotate(2deg); opacity: 0.8; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(0, -10px, 0); }
+  }
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes ping-soft {
+    0% { transform: scale(1); opacity: 0.55; }
+    80%, 100% { transform: scale(2.6); opacity: 0; }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translate3d(0, 28px, 0); filter: blur(6px); }
+    to { opacity: 1; transform: none; filter: blur(0); }
+  }
+  @keyframes tick {
+    from { opacity: 0; transform: translate3d(-8px, 0, 0); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* ==========================================================================
+   BAZA
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Plutajući navbar ne smije prekriti naslov sekcije pri skoku na #anchor. */
+    scroll-padding-top: 7rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-cream-100);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-gold-300);
+    color: var(--color-navy-900);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   KOMPONENTNI UZORCI
+   ========================================================================== */
+@layer components {
+  /* Diskretna tekstura za navy blokove — daje dubinu bez gradijenata. */
+  .bg-weave {
+    background-image: repeating-linear-gradient(
+      118deg,
+      rgb(255 255 255 / 0.03) 0 1px,
+      transparent 1px 14px
+    );
+  }
+
+  .bg-weave-light {
+    background-image: repeating-linear-gradient(
+      118deg,
+      rgb(1 35 77 / 0.05) 0 1px,
+      transparent 1px 14px
+    );
+  }
+
+  /* Tačkasta mreža — mirna pozadina za mapu i vizuale. */
+  .bg-dots {
+    background-image: radial-gradient(rgb(1 35 77 / 0.13) 1px, transparent 1.2px);
+    background-size: 18px 18px;
+  }
+
+  /* Filmsko zrno preko navy površina — uklanja „digitalnu" ravnost. */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -5; /* iznad zraka, ispod sadržaja (roditelj ima isolate) */
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Maska za traku usluga — ivice nestaju u pozadini. */
+  .mask-fade-x {
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+}
+
+/* ==========================================================================
+   REVEAL ANIMACIJA (fade + pomak + blagi blur, jednom po elementu)
+   ========================================================================== */
+@utility reveal {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+  filter: blur(4px);
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo),
+    filter 0.9s var(--ease-out-expo);
+}
+
+@utility reveal-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
